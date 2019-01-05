@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TastyPieShop.Models;
 
 namespace TastyPieShop
 {
@@ -14,7 +16,22 @@ namespace TastyPieShop
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            //BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<AppDbContext>();
+                    DbInitializer.Seed(context);
+                }
+                catch(Exception)
+                {
+                    //we could log this in a real-world situation
+                }
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

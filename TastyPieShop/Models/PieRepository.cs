@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace TastyPieShop.Models
 {
-    public class PieRepositorycs:IPieRepository
+    public class PieRepository:IPieRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public PieRepositorycs(AppDbContext appDbContext)
+        public PieRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
